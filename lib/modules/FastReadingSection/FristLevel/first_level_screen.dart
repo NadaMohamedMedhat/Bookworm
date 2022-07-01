@@ -17,45 +17,47 @@ class FirstLevelScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: secondColor,
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(
-                height: 25,
-              ),
-              Text(
-                'اختبر سرعة قرائتك',
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              const CircleAvatar(
-                backgroundColor: thirdColor,
-                radius: 70,
-                child: Counter(nextScreen: FirstLevelQuestions(), seconds: 3),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              Expanded(
-                  flex: 1,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical, //.horizontal
-                    child: ConditionalBuilder(
-                      condition: state is GetParagraphSuccessState,
-                      builder: (context) => myParagraph(),
-                      fallback: (context) => const Center(
-                        child: Image(
-                          image: AssetImage('assets/images/loading.gif'),
-                          height: 90,
-                          width: 90,
+          body: Container(
+            decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 25,
+                ),
+                Text(
+                  'اختبر سرعة قرائتك',
+                  style: Theme.of(context).textTheme.subtitle1,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const CircleAvatar(
+                  backgroundColor: thirdColor,
+                  radius: 70,
+                  child: Counter(nextScreen: FirstLevelQuestions(), seconds: 420),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                Expanded(
+                    flex: 1,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical, //.horizontal
+                      child: ConditionalBuilder(
+                        condition: state is GetParagraphSuccessState,
+                        builder: (context) => myParagraph(),
+                        fallback: (context) => const Center(
+                          child: Image(
+                            image: AssetImage('assets/images/loading.gif'),
+                            height: 90,
+                            width: 90,
+                          ),
                         ),
                       ),
-                    ),
-                  ))
-            ],
+                    ))
+              ],
+            ),
           ),
         );
       },
@@ -66,7 +68,10 @@ class FirstLevelScreen extends StatelessWidget {
 Widget paragraphText(model, context) {
   return Row(
     children: [
-      Text(model.paragraph.toString()),
+      Text(
+        model.paragraph.toString(),
+        style: Theme.of(context).textTheme.subtitle1,
+      ),
     ],
   );
 }
@@ -90,9 +95,11 @@ class Counter extends StatelessWidget {
       ),
       interval: const Duration(milliseconds: 100),
       onFinished: () {
-        navigateToAndBurn(context, nextScreen
-            //QuizzScreen()
-            );
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => nextScreen),
+            (route) => route.isFirst);
+        //navigateToAndBurn(context, nextScreen);
       },
     );
   }
@@ -122,7 +129,10 @@ Widget myParagraph() {
                           .paragraph![1]
                           .name
                           .toString(),
-                      style: Theme.of(context).textTheme.subtitle1,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1!
+                          .copyWith(color: fifthColor),
                     );
                   }),
                 ))
@@ -140,7 +150,10 @@ Widget myParagraph() {
                           .paragraph![1]
                           .paragraph
                           .toString(),
-                      style: Theme.of(context).textTheme.subtitle1,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1!
+                          .copyWith(color: fifthColor),
                     );
                   }),
                 ))

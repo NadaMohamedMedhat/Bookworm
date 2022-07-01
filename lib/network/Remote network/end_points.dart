@@ -22,4 +22,14 @@ const ANSWERS = 'exam/answer';
 const LOGIN = 'auth/login';
 // ignore: constant_identifier_names
 const PROFILE = 'auth/profile';
+// ignore: constant_identifier_names
+const WANTTOREAD = 'Cart/addtocurrent';
+// ignore: constant_identifier_names
+const POSTSCORE = 'Exam/result';
+// ignore: constant_identifier_names
+const GETSCORE = 'Exam/resultquiz';
+// ignore: constant_identifier_names
+const GETWANTTOREAD = 'Cart/getproduct/favorite';
+// ignore: constant_identifier_names
+const FORGOTPASSWORD = 'forgotPassword';
 

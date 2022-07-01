@@ -23,49 +23,55 @@ class _LiteratureBooksState extends State<LiteratureBooks> {
       });
     });
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          _mainContent(context),
-        ],
+      body: Container(
+        decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
+        child: Stack(
+          children: <Widget>[
+            _mainContent(context),
+          ],
+        ),
       ),
     );
   }
 
   Widget _mainContent(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        const SizedBox(height: 60),
-        const Padding(
-          padding: EdgeInsets.all(24.0),
-          child: Text(
-            "Literature Books",
-            style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+    return Container(
+      decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          const SizedBox(height: 60),
+           Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Text(
+              "Literature Books",
+              style: Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 32),
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: _button(context),
-        ),
-        Expanded(
-            child: PageView(
-          controller: _pageController,
-          children: const <Widget>[
-            BooksScreen(
-              title: 'classic literature',
-              itemsNumber: 5,
-              listNumber: 9,
-              screenNav: BookDetailsScreen.routePass,
-            ),
-            BooksScreen(
-              title: 'modern literature ',
-              itemsNumber: 4,
-              listNumber: 37,
-              screenNav: BookDetailsScreen.routePass,
-            ),
-          ],
-        ))
-      ],
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: _button(context),
+          ),
+          Expanded(
+              child: PageView(
+            controller: _pageController,
+            children: const <Widget>[
+              BooksScreen(
+                title: 'classic literature',
+                itemsNumber: 5,
+                listNumber: 9,
+                screenNav: BookDetailsScreen.routePass,
+              ),
+              BooksScreen(
+                title: 'modern literature ',
+                itemsNumber: 4,
+                listNumber: 37,
+                screenNav: BookDetailsScreen.routePass,
+              ),
+            ],
+          ))
+        ],
+      ),
     );
   }
 
@@ -75,10 +81,11 @@ class _LiteratureBooksState extends State<LiteratureBooks> {
         Expanded(
             child: CustomButton(
           onPressed: () {
-              togglePrev();
+            togglePrev();
           },
           buttonText: "Classic ",
-          color: currentPage < 0.5 ? Theme.of(context).accentColor : Colors.white,
+          color:
+              currentPage < 0.5 ? Theme.of(context).accentColor : Colors.white,
           textColor:
               currentPage < 0.5 ? Colors.white : Theme.of(context).accentColor,
           borderColor: currentPage < 0.5
@@ -91,10 +98,11 @@ class _LiteratureBooksState extends State<LiteratureBooks> {
         Expanded(
             child: CustomButton(
           onPressed: () {
-              toggleNext();
+            toggleNext();
           },
           buttonText: "Modern ",
-          color: currentPage > 0.5 ? Theme.of(context).accentColor : Colors.white,
+          color:
+              currentPage > 0.5 ? Theme.of(context).accentColor : Colors.white,
           textColor:
               currentPage > 0.5 ? Colors.white : Theme.of(context).accentColor,
           borderColor: currentPage > 0.5
@@ -114,6 +122,4 @@ class _LiteratureBooksState extends State<LiteratureBooks> {
     _pageController.previousPage(
         duration: const Duration(milliseconds: 500), curve: Curves.bounceInOut);
   }
-
-  
 }

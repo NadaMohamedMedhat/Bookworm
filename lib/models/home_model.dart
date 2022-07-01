@@ -26,14 +26,12 @@
 //   }
 // }
 
-
 // class BookModel
 // {
 //   int? id;
 //   String? name;
 //   String? description;
 //   String? url;
-  
 
 //   BookModel.fromJson(Map<String, dynamic> json)
 //   {
@@ -41,12 +39,9 @@
 //     name = json['name'];
 //     description = json['description'];
 //     url = json['url'];
-    
+
 //   }
 // }
-
-
-
 
 class HomeModel {
   String? status;
@@ -77,13 +72,14 @@ class HomeModel {
   }
 }
 
-
 class Book {
   int? id;
   String? name;
   String? description;
   String? file1;
   String? categories;
+  String? publishedBy;
+  String? year;
   String? audio;
   String? author;
   double? rate;
@@ -101,6 +97,8 @@ class Book {
       this.url,
       this.file2,
       this.categories,
+      this.publishedBy,
+      this.year,
       this.audio,
       this.author,
       this.rate,
@@ -116,6 +114,8 @@ class Book {
     url = json['url'];
     file2 = json['file2'];
     categories = json['categories'];
+    publishedBy = json['published_by'];
+    year = json['year'];
     audio = json['audio'];
     author = json['author'];
     rate = json['rate'].toDouble();
@@ -133,6 +133,8 @@ class Book {
     data['url'] = this.url;
     data['file2'] = this.file2;
     data['categories'] = this.categories;
+    data['published_by'] = this.publishedBy;
+    data['year'] = this.year;
     data['audio'] = this.audio;
     data['author'] = this.author;
     data['rate'] = this.rate;

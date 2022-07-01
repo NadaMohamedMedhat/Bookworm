@@ -36,6 +36,12 @@ class CacheHelper {
     }
     return await sharedPreferences!.setDouble(key!, value);
     }
+  static Future<bool> saveUIdData({
+    @required String? key,
+    @required dynamic value,
+  })async {
+    return await sharedPreferences!.setInt(key!, value);
+    }
 
   static Future<bool> removeData(
       {required String key})async{

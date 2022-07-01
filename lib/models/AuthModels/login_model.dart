@@ -2,13 +2,13 @@ class LoginModel {
   String? status;
   String? message;
   String? token;
-  UserData? user;
+  late UserData user;
 
   LoginModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     token = json['token'];
-    user = json['user'] != null ? UserData.fromJson(json['user']) : null;
+    user = (json['user'] != null ? UserData.fromJson(json['user']) : null)!;
   }
 }
 

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/models/home_model.dart';
 
 import 'package:graduation_project/modules/search_screen/cubit/search_states.dart';
 import 'package:graduation_project/network/Remote%20network/end_points.dart';
@@ -37,9 +38,9 @@ class SearchCubit extends Cubit<SearchStates> {
 
   // SearchModel? searchModel;
   // List allItems =[] ;
-  // void getSearchData(var text){
+  // void getSearchData(keyword){
   //   emit(SearchLoadingState());
-  //   DioHelper.getData(path: 'https://thebook.tech/api/page/search/$text',).then((value) {
+  //   DioHelper.getData(path: 'https://thebook.tech/api/page/search?keyword=$keyword',).then((value) {
   //     searchModel = SearchModel.fromJson(value.data);
   //     allItems = [
   //          searchModel!.data,
@@ -52,21 +53,22 @@ class SearchCubit extends Cubit<SearchStates> {
   // }
 
 
-  SearchModel? searchModel;
-  //List allItems =[] ;
+  HomeModel? searchModel;
+  List allItems =[] ;
   void getSearchData(
-    String name , 
+    String keyword , 
  //dynamic year
   ){
     emit(SearchLoadingState());
     DioHelper.getSearchData(path: 'https://thebook.tech/api/page/search',
-    name: name , 
+    keyword: keyword , 
    // year: year
     ).then((value) {
-      searchModel = SearchModel.fromJson(value.data);
+      searchModel = HomeModel.fromJson(value.data);
       // allItems = [
       //      searchModel!.data,
       //    ];
+      //allItems = searchModel!.data![0].contains(name.toString());
          print(searchModel!.data![0].name.toString());
          print(searchModel!.data.toString());
       emit(SearchSuccessState());

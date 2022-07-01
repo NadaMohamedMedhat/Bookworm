@@ -11,7 +11,7 @@ class LayoutCubit extends Cubit<LayoutStates> {
   static LayoutCubit get(context) => BlocProvider.of(context);
 
 
-  bool isDark = false;
+  bool isDark = true;
 
   void changeAppMode({bool? fromShared}) {
     if (fromShared != null) {

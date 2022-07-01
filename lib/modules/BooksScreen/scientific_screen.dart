@@ -31,47 +31,48 @@ class _ScientificBooksState extends State<ScientificBooks> {
   }
 
   Widget _mainContent(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        const SizedBox(height: 60),
-        const Padding(
-          padding: EdgeInsets.all(24.0),
-          child: Text(
-            "Scientific Books",
-            style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+    return Container(
+      decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          const SizedBox(height: 60),
+           Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Text(
+              "Scientific Books",
+              style: Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 32),
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: _button(context),
-        ),
-        Expanded(
-            child: PageView(
-          controller: _pageController,
-          children: const <Widget>[
-            BooksScreen(
-              title: 'Computer Science',
-              itemsNumber: 8,
-              listNumber: 14,
-              screenNav: BookDetailsScreen.routePass,
-            ),
-            BooksScreen(
-              title: 'chemistry ',
-              itemsNumber: 4,
-              listNumber: 33,
-              screenNav: BookDetailsScreen.routePass
-              
-            ),
-            BooksScreen(
-              title: 'physics ',
-              itemsNumber: 4,
-              listNumber: 41,
-              screenNav: BookDetailsScreen.routePass,
-            ),
-          ],
-        ))
-      ],
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: _button(context),
+          ),
+          Expanded(
+              child: PageView(
+            controller: _pageController,
+            children: const <Widget>[
+              BooksScreen(
+                title: 'Computer Science',
+                itemsNumber: 9,
+                listNumber: 14,
+                screenNav: BookDetailsScreen.routePass,
+              ),
+              BooksScreen(
+                  title: 'chemistry ',
+                  itemsNumber: 4,
+                  listNumber: 33,
+                  screenNav: BookDetailsScreen.routePass),
+              BooksScreen(
+                title: 'physics ',
+                itemsNumber: 3,
+                listNumber: 41,
+                screenNav: BookDetailsScreen.routePass,
+              ),
+            ],
+          ))
+        ],
+      ),
     );
   }
 
@@ -176,7 +177,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
+    return MaterialButton(height: 55  ,
       onPressed: onPressed,
       shape: RoundedRectangleBorder(
           side: BorderSide(color: borderColor),
@@ -184,7 +185,10 @@ class CustomButton extends StatelessWidget {
       color: color,
       textColor: textColor,
       padding: const EdgeInsets.all(14.0),
-      child: Text(buttonText , style: const TextStyle(fontSize: 12),),
+      child: Text(
+        buttonText,
+        style: const TextStyle(fontSize: 12),
+      ),
     );
   }
 }

@@ -8,8 +8,11 @@ import '../../widgets/reusable_components.dart';
 import '../FastReadingSection/fast_rading_introduction.dart';
 import '../HomeScreen/home_screen.dart';
 import '../ProfileScreen/profile_screen.dart';
+import '../want_to_read_screen/want_to_read_screen.dart';
 
 class HomeLayout extends StatefulWidget {
+  const HomeLayout({Key? key}) : super(key: key);
+
   //const HomeLayout({Key? key}) : super(key: key);
 
   @override
@@ -30,7 +33,7 @@ class _HomeLayoutState extends State<HomeLayout> {
         size: 30,
       ),
       const Icon(
-        Icons.book,
+        Icons.person_pin_circle,
         size: 30,
       ),
       const Icon(
@@ -38,7 +41,7 @@ class _HomeLayoutState extends State<HomeLayout> {
         size: 30,
       ),
       const Icon(
-        Icons.person_pin_circle,
+        Icons.book,
         size: 30,
       ),
     ];
@@ -51,15 +54,9 @@ class _HomeLayoutState extends State<HomeLayout> {
             children: [
               const HomeScreen(),
               const FastReadingIntroductionScreen(),
-              const Center(
-                child: Text(
-                  'No Books added yet',
-                  style: TextStyle(fontSize: 30),
-                ),
-              ),
+              ProfileScreen(),
               SearchScreen(),
-              //AudioPlayerBackgroundPlaylist(),
-              ProfileScreen()
+              const SectionsScreen(),
             ],
             onPageChanged: (int index) {
               setState(() {
@@ -79,7 +76,7 @@ class _HomeLayoutState extends State<HomeLayout> {
               height: 65,
               index: 0,
               onTap: (int index) => setState(() {
-                if(index==5)ProfileCubit .get(context).getUserProfile();
+                    if (index == 5) ProfileCubit.get(context).getUserProfile();
                     _pageController.jumpToPage(index);
                   })),
         ));

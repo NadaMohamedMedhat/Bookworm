@@ -1,10 +1,13 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/modules/FastReadingSection/AnswerQuestionsCubit/cubit/post_score_cubit.dart';
+import 'package:graduation_project/modules/FastReadingSection/AnswerQuestionsCubit/cubit/post_score_states.dart';
+import 'package:graduation_project/modules/ProfileScreen/ProfileCubit/Profile_states.dart';
 
 import '../../../widgets/reusable_components.dart';
-import '../levels_screen.dart';
-
+import '../../ProfileScreen/ProfileCubit/profile_cubit.dart';
 
 class ThirdLevelQuestions extends StatefulWidget {
   const ThirdLevelQuestions({Key? key}) : super(key: key);
@@ -21,6 +24,7 @@ class _ThirdLevelQuestionsState extends State<ThirdLevelQuestions> {
   PageController? _controller;
   String btnText = "Next Question";
   bool answered = false;
+  int scoreLevel = 3;
   @override
   void initState() {
     super.initState();
@@ -30,136 +34,145 @@ class _ThirdLevelQuestionsState extends State<ThirdLevelQuestions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: secondColor,
-      body: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: PageView.builder(
-            controller: _controller!,
-            onPageChanged: (page) {
-              if (page == thirdQuestions.length - 1) {
+      body: Container(
+        decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
+        child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: PageView.builder(
+              controller: _controller!,
+              onPageChanged: (page) {
+                if (page == thirdQuestions.length - 1) {
+                  setState(() {
+                    btnText = "See Results";
+                  });
+                }
                 setState(() {
-                  btnText = "See Results";
+                  answered = false;
                 });
-              }
-              setState(() {
-                answered = false;
-              });
-            },
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      "Question ${index + 1}/10",
-                      textAlign: TextAlign.start,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 30.0,
-                      ),
-                    ),
-                  ),
-                  const Divider(
-                    color: Colors.white,
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 150.0,
-                    child: Text(
-                      "${thirdQuestions[index].question}",
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 22.0,
-                      ),
-                    ),
-                  ),
-                  for (int i = 0;
-                      i < thirdQuestions[index].answers!.length;
-                      i++)
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: fifthColor, width: 2)),
+              },
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
                       width: double.infinity,
-                      height: 50.0,
-                      margin: const EdgeInsets.only(
-                          bottom: 20.0, left: 12.0, right: 12.0),
-                      child: RawMaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        fillColor: btnPressed
-                            ? thirdQuestions[index].answers!.values.toList()[i]
-                                ? Colors.green
-                                : Colors.red
-                            : secondColor,
-                        onPressed: !answered
-                            ? () {
-                                if (thirdQuestions[index]
-                                    .answers!
-                                    .values
-                                    .toList()[i]) {
-                                  score++;
-                                  // ignore: avoid_print
-                                  print("yes");
-                                } else {
-                                  // ignore: avoid_print
-                                  print("no");
-                                }
-                                setState(() {
-                                  btnPressed = true;
-                                  answered = true;
-                                });
-                              }
-                            : null,
-                        child: Text(
-                            thirdQuestions[index].answers!.keys.toList()[i],
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0,
-                            )),
+                      child: Text("Question ${index + 1}/10",
+                          textAlign: TextAlign.start,
+                          style: Theme.of(context).textTheme.subtitle1),
+                    ),
+                    const Divider(
+                      color: secondColor,
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 150.0,
+                      child: Text(
+                        "${thirdQuestions[index].question}",
+                        style: Theme.of(context).textTheme.subtitle1
                       ),
                     ),
-                  const SizedBox(
-                    height: 40.0,
-                  ),
-                  RawMaterialButton(
-                    onPressed: () {
-                      if (_controller!.page?.toInt() ==
-                          thirdQuestions.length - 1) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ResultScreen(score)));
-                      } else {
-                        _controller!.nextPage(
-                            duration: const Duration(milliseconds: 250),
-                            curve: Curves.easeInExpo);
-
-                        setState(() {
-                          btnPressed = false;
-                        });
-                      }
-                    },
-                    shape: const StadiumBorder(),
-                    fillColor: thirdColor,
-                    padding: const EdgeInsets.all(18.0),
-                    elevation: 0.0,
-                    child: Text(
-                      btnText,
-                      style: const TextStyle(color: Colors.white),
+                    for (int i = 0;
+                        i < thirdQuestions[index].answers!.length;
+                        i++)
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: secondColor, width: 2)),
+                        width: double.infinity,
+                        height: 50.0,
+                        margin: const EdgeInsets.only(
+                            bottom: 20.0, left: 12.0, right: 12.0),
+                        child: RawMaterialButton(
+                          shape: const RoundedRectangleBorder(
+                          ),
+                          fillColor: btnPressed
+                              ? thirdQuestions[index]
+                                      .answers!
+                                      .values
+                                      .toList()[i]
+                                  ? Colors.green
+                                  : Colors.red
+                              : secondColor,
+                          onPressed: !answered
+                              ? () {
+                                  if (thirdQuestions[index]
+                                      .answers!
+                                      .values
+                                      .toList()[i]) {
+                                    score++;
+                                    // ignore: avoid_print
+                                    print("yes");
+                                  } else {
+                                    // ignore: avoid_print
+                                    print("no");
+                                  }
+                                  setState(() {
+                                    btnPressed = true;
+                                    answered = true;
+                                  });
+                                }
+                              : null,
+                          child: Text(
+                              thirdQuestions[index].answers!.keys.toList()[i],
+                              style: Theme.of(context).textTheme.subtitle1),
+                        ),
+                      ),
+                    const SizedBox(
+                      height: 40.0,
                     ),
-                  )
-                ],
-              );
-            },
-            itemCount: thirdQuestions.length,
-          )),
+                    BlocConsumer<ProfileCubit, ProfileStates>(
+                      listener: (context, state) {},
+                      builder: (context, state) {
+                        return BlocConsumer<PostScoreCubit, PostScoreStates>(
+                          listener: (context, state) {},
+                          builder: (context, state) {
+                            return RawMaterialButton(
+                              onPressed: () {
+                                if (_controller!.page?.toInt() ==
+                                    thirdQuestions.length - 1) {
+                                  PostScoreCubit.get(context).postUserScore(
+                                      ProfileCubit.get(context).id.toString(),
+                                      score.toString(),
+                                      scoreLevel.toString());
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ResultScreen(score)));
+                                } else {
+                                  _controller!.nextPage(
+                                      duration:
+                                          const Duration(milliseconds: 250),
+                                      curve: Curves.easeInExpo);
+
+                                  setState(() {
+                                    btnPressed = false;
+                                  });
+                                }
+                              },
+                              shape: const StadiumBorder(),
+                              fillColor: thirdColor,
+                              padding: const EdgeInsets.all(18.0),
+                              elevation: 0.0,
+                              child: Text(
+                                btnText,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    )
+                  ],
+                );
+              },
+              itemCount: thirdQuestions.length,
+            )),
+      ),
     );
   }
 }
@@ -255,54 +268,24 @@ class _ResultScreenState extends State<ResultScreen> {
           SizedBox(
             width: double.infinity,
             child: Text(
-              widget.score < 5
-                  ? resultText.toString()
-                  : resultText = 'Congratulations you did it',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 40.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+                widget.score < 5
+                    ? resultText.toString()
+                    : resultText = 'Congratulations you did it',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.subtitle1!),
           ),
           const SizedBox(
             height: 45.0,
           ),
-          const Text(
-            "Your Score is",
-            style: TextStyle(color: Colors.white, fontSize: 34.0),
-          ),
+          Text("Your Score is", style: Theme.of(context).textTheme.subtitle1!),
           const SizedBox(
             height: 20.0,
           ),
-          Text(
-            "${widget.score}",
-            style: const TextStyle(
-              color: Colors.orange,
-              fontSize: 85.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          Text("${widget.score}",
+              style: Theme.of(context).textTheme.subtitle1!),
           const SizedBox(
             height: 100.0,
           ),
-          // FlatButton(
-          //   onPressed: () {
-          //     Navigator.push(
-          //         context,
-          //         MaterialPageRoute(
-          //           builder: (context) => const LevelsScreen(),
-          //         ));
-          //   },
-          //   shape: const StadiumBorder(),
-          //   color: thirdColor,
-          //   padding: const EdgeInsets.all(18.0),
-          //   child: const Text(
-          //     "Back to choose level",
-          //     style: TextStyle(color: Colors.white),
-          //   ),
-          // ),
         ],
       ),
     );

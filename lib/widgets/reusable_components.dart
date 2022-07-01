@@ -29,6 +29,7 @@ Widget defaultFormField(
         required TextEditingController controller,
         required TextInputType inputType,
         String? Function(String?)? validate,
+        TextStyle? style,
         Color? filledColor,
         required String label,
         required IconData? prefixIcon,
@@ -41,7 +42,7 @@ Widget defaultFormField(
     TextFormField(
       controller: controller,
       keyboardType: inputType,
-      style: Theme.of(context).textTheme.subtitle2,
+      style: style,
       onTap: onTap,onFieldSubmitted: onSubmit,
       onChanged: onChange,
       validator: validate ??
@@ -128,8 +129,12 @@ void navigateToAndBurn(context, widget) => Navigator.pushReplacement(
 const Color firstColor = Color.fromRGBO(38, 108, 170, 1); // 266CAA
 const Color secondColor = Color.fromRGBO(77, 179, 184, 5); // 4DB3B8
 const Color thirdColor = Color.fromRGBO(6, 152, 139, 1); // 06988B
-const Color fourthColor = Color.fromRGBO(255, 255, 255, 1); // FFFFFFF
-const Color fifthColor = Color.fromRGBO(36, 34, 44, 1);        // 000000
+const Color fourthColor = Color.fromRGBO(246, 248, 250, 1); // FFFFFFF
+const Color fifthColor = Color.fromRGBO(35, 33, 43, 1);        // 000000  23212b
+const Color ligthBackground = Color.fromRGBO(238, 241, 248, 1);        // 000000  23212b
 //const Color sixthColor = Color.fromRGBO(250, 250, 250, 1);
 //
 String token ="" ;
+
+//  const Color fifthColor = Color.fromRGBO(14, 20, 27, 1);        // 000000  23212b
+

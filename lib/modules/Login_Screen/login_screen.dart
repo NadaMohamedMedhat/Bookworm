@@ -2,16 +2,19 @@
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/modules/HomeScreen/cubit/layout_cubit.dart';
 import 'package:graduation_project/modules/Login_Screen/cubit/login_cubit.dart';
 import 'package:graduation_project/modules/Login_Screen/cubit/login_states.dart';
 import 'package:graduation_project/modules/ProfileScreen/ProfileCubit/profile_cubit.dart';
 import 'package:graduation_project/modules/home_layout/home_layout.dart';
+import 'package:graduation_project/modules/register_screen/cubit/register_cubit.dart';
+import 'package:graduation_project/modules/register_screen/cubit/register_states.dart';
 import 'package:graduation_project/modules/register_screen/register_screen.dart';
 import 'package:graduation_project/network/local_network/Cache_Helper.dart';
 import 'package:graduation_project/widgets/fade_animation.dart';
 
 import '../../widgets/reusable_components.dart';
-
+import '../forget_password/forget_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -31,10 +34,12 @@ class _LoginScreenState extends State<LoginScreen> {
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginStates>(
         listener: (context, state) {
+          CacheHelper.saveUIdData(
+              key: 'uID', value: LoginCubit.get(context).loginModel.user.id);
           if (state is LoginSuccessState) {
             if (state.loginModel.message == 'successfull login') {
               print(state.loginModel.message);
-              print(state.loginModel.user?.token);
+              print(state.loginModel.user.token);
               ProfileCubit.get(context).getUserProfile();
 
               showToast(
@@ -126,6 +131,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Column(
                                 children: [
                                   defaultFormField(
+                                      style: LayoutCubit.get(context).isDark
+                                          ? Theme.of(context)
+                                              .textTheme
+                                              .subtitle2!
+                                              .copyWith(color: fifthColor)
+                                          : Theme.of(context)
+                                              .textTheme
+                                              .subtitle2,
                                       context: context,
                                       controller: emailController,
                                       inputType: TextInputType.emailAddress,
@@ -142,38 +155,58 @@ class _LoginScreenState extends State<LoginScreen> {
                                   const SizedBox(
                                     height: 16,
                                   ),
-                                  defaultFormField(
-                                    context: context,
-                                    controller: passwordController,
-                                    inputType: TextInputType.visiblePassword,
-                                    validate: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Password must not be null';
-                                      }
+                                  BlocConsumer<RegisterCubit, RegisterStates>(
+                                    listener: (context, state) {
+                                      // TODO: implement listener
                                     },
-                                    label: 'Password',
-                                    prefixIcon: Icons.lock,
-                                    suffixIcon:
-                                        LoginCubit.get(context).passwordIcon,
-                                    isPasswordShown:
-                                        LoginCubit.get(context).isPasswordShown,
-                                    onTapSuffixIcon: () =>
-                                        LoginCubit.get(context).showPassword(),
+                                    builder: (context, state) {
+                                      return defaultFormField(
+                                        style: LayoutCubit.get(context).isDark
+                                            ? Theme.of(context)
+                                                .textTheme
+                                                .subtitle2!
+                                                .copyWith(color: fifthColor)
+                                            : Theme.of(context)
+                                                .textTheme
+                                                .subtitle2,
+                                        context: context,
+                                        controller: passwordController,
+                                        inputType:
+                                            TextInputType.visiblePassword,
+                                        validate: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Password must not be null';
+                                          }
+                                        },
+                                        label: 'Password',
+                                        prefixIcon: Icons.lock,
+                                        suffixIcon: RegisterCubit.get(context)
+                                          .passwordIcon,
+                                      isPasswordShown:
+                                          RegisterCubit.get(context)
+                                              .isPasswordShown,
+                                      onTapSuffixIcon: () =>
+                                          RegisterCubit.get(context)
+                                              .showPassword(),
+                                      );
+                                    },
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
-                                    children: const [
-                                      // TextButton(
-                                      //   onPressed: () {},
-                                      //   child: Text('Forget Password? ',
-                                      //       style: Theme.of(context)
-                                      //           .textTheme
-                                      //           .subtitle1!
-                                      //           .copyWith(
-                                      //               fontSize: 15,
-                                      //               fontWeight:
-                                      //                   FontWeight.bold)),
-                                      // ),
+                                    children: [
+                                      TextButton(
+                                        onPressed: () {
+                                          navigateTo(context, ForgotPassword());
+                                        },
+                                        child: Text('Forget Password? ',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle1!
+                                                .copyWith(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                      ),
                                     ],
                                   ),
                                   const SizedBox(
@@ -216,13 +249,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text('don\'t have an account? ',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .subtitle1!
-                                              .copyWith(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold)),
+                                      Text(
+                                        'don\'t have an account? ',
+                                        style: LayoutCubit.get(context).isDark
+                                            ? Theme.of(context)
+                                                .textTheme
+                                                .subtitle2!
+                                                .copyWith(color: fifthColor)
+                                            : Theme.of(context)
+                                                .textTheme
+                                                .subtitle2,
+                                      ),
                                       TextButton(
                                         onPressed: () {
                                           Navigator.of(context).pushReplacement(
@@ -231,14 +268,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                                       (BuildContext context) =>
                                                           RegisterScreen()));
                                         },
-                                        child: Text('Sign Up ',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle1!
-                                                .copyWith(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
+                                        child: Text(
+                                          'Sign Up ',
+                                          style: LayoutCubit.get(context).isDark
+                                              ? Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle2!
+                                                  .copyWith(color: fifthColor)
+                                              : Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle2,
+                                        ),
                                       ),
                                     ],
                                   ),

@@ -31,9 +31,13 @@ class LoginCubit extends Cubit<LoginStates> {
     ).then((value) {
       // ignore: avoid_print
       print(value.data);
+      print(value.data);
+      //print(loginModel.user!.id);
+      //print(loginModel.user!.id.toString());
 
       loginModel = LoginModel.fromJson(value.data);
       CacheHelper.saveData(key: 'myToken', value:loginModel.token! );
+     //CacheHelper.saveData(key: 'uId', value:loginModel.user!.id! );
 
 
       emit(LoginSuccessState(loginModel));

@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/models/get_score_model.dart';
 import 'package:graduation_project/network/local_network/Cache_Helper.dart';
 
 import '../../../network/Remote network/dio_helper.dart';
@@ -14,6 +17,7 @@ class ProfileCubit extends Cubit<ProfileStates> {
   //ProfileModel? userProfile;
   String? name;
   String? email;
+  int? id;
 
   void getUserProfile() {
     emit(ProfileLoadingState());
@@ -27,8 +31,10 @@ class ProfileCubit extends Cubit<ProfileStates> {
       print(value.data);
       name = value.data['user']['name'];
       email = value.data['user']['email'];
+      id = value.data['user']['id'];
       print(email);
       print(name);
+      print(id);
       // print(' success heeeeer');
 
       emit(ProfileSuccessState());
@@ -38,4 +44,7 @@ class ProfileCubit extends Cubit<ProfileStates> {
       emit(ProfileErrorState(error.toString()));
     });
   }
+
+  // List<GetUserScoreModel> list = [];
+  
 }

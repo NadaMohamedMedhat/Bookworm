@@ -11,3 +11,4 @@ class ProfileErrorState extends ProfileStates {
 
   ProfileErrorState(this.error);
 }
+

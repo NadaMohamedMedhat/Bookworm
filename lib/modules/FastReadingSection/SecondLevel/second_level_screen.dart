@@ -18,52 +18,53 @@ class SecondLevelScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: secondColor,
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(
-                height: 25,
-              ),
-              Text(
-                'اختبر سرعة قرائتك',
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              CircleAvatar(
-                backgroundColor: thirdColor,
-                radius: 70,
-                child: Counter(nextScreen: SecondLevelQuestions(), seconds: 3),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              Expanded(
-                  flex: 1,
-                  child:  SingleChildScrollView(
-                    scrollDirection: Axis.vertical, //.horizontal
-                    child: ConditionalBuilder(
-                      condition: state is GetParagraphSuccessState,
-                      builder: (context) => myParagraph(),
-                      fallback: (context) => const Center(
-                        child: Image(
-                          image: AssetImage('assets/images/loading.gif'),
-                          height: 90,
-                          width: 90,
+          body: Container(
+            decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 25,
+                ),
+                Text(
+                  'اختبر سرعة قرائتك',
+                  style: Theme.of(context).textTheme.subtitle1,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const CircleAvatar(
+                  backgroundColor: thirdColor,
+                  radius: 70,
+                  child: Counter(nextScreen: SecondLevelQuestions(), seconds: 300),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                Expanded(
+                    flex: 1,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical, //.horizontal
+                      child: ConditionalBuilder(
+                        condition: state is GetParagraphSuccessState,
+                        builder: (context) => myParagraph(),
+                        fallback: (context) => const Center(
+                          child: Image(
+                            image: AssetImage('assets/images/loading.gif'),
+                            height: 90,
+                            width: 90,
+                          ),
                         ),
                       ),
-                    ),
-                  ))
-            ],
+                    ))
+              ],
+            ),
           ),
         );
       },
     );
   }
 }
-
 
 Widget myParagraph() {
   return Padding(
@@ -89,7 +90,10 @@ Widget myParagraph() {
                           .paragraph![6]
                           .name
                           .toString(),
-                      style: Theme.of(context).textTheme.subtitle1,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1!
+                          .copyWith(color: fifthColor),
                     );
                   }),
                 ))
@@ -107,7 +111,10 @@ Widget myParagraph() {
                           .paragraph![6]
                           .paragraph
                           .toString(),
-                      style: Theme.of(context).textTheme.subtitle1,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1!
+                          .copyWith(color: fifthColor),
                     );
                   }),
                 ))

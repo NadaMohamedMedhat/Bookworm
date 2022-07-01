@@ -1,6 +1,8 @@
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/modules/HomeScreen/cubit/layout_cubit.dart';
+import 'package:graduation_project/modules/home_layout/cubit/home_cubit.dart';
 
 import 'package:graduation_project/modules/home_layout/home_layout.dart';
 import 'package:graduation_project/modules/register_screen/cubit/register_cubit.dart';
@@ -30,11 +32,11 @@ class RegisterScreen extends StatelessWidget {
         create: (context) => RegisterCubit(),
         child: BlocConsumer<RegisterCubit, RegisterStates>(
           listener: (context, state) {
-
-
             if (state is RegisterSuccessState) {
               if (state.registerModel.message == 'Successful register') {
+                // ignore: avoid_print
                 print(state.registerModel.message);
+                // ignore: avoid_print
                 print(state.registerModel.token);
                 ProfileCubit.get(context).getUserProfile();
 
@@ -123,6 +125,14 @@ class RegisterScreen extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     defaultFormField(
+                                        style: LayoutCubit.get(context).isDark
+                                            ? Theme.of(context)
+                                                .textTheme
+                                                .subtitle2!
+                                                .copyWith(color: fifthColor)
+                                            : Theme.of(context)
+                                                .textTheme
+                                                .subtitle2,
                                         context: context,
                                         controller: nameController,
                                         inputType: TextInputType.name,
@@ -137,6 +147,14 @@ class RegisterScreen extends StatelessWidget {
                                       height: 16,
                                     ),
                                     defaultFormField(
+                                        style: LayoutCubit.get(context).isDark
+                                            ? Theme.of(context)
+                                                .textTheme
+                                                .subtitle2!
+                                                .copyWith(color: fifthColor)
+                                            : Theme.of(context)
+                                                .textTheme
+                                                .subtitle2,
                                         context: context,
                                         controller: emailController,
                                         inputType: TextInputType.emailAddress,
@@ -154,12 +172,23 @@ class RegisterScreen extends StatelessWidget {
                                       height: 16,
                                     ),
                                     defaultFormField(
+                                      style: LayoutCubit.get(context).isDark
+                                          ? Theme.of(context)
+                                              .textTheme
+                                              .subtitle2!
+                                              .copyWith(color: fifthColor)
+                                          : Theme.of(context)
+                                              .textTheme
+                                              .subtitle2,
                                       context: context,
                                       controller: passwordController,
                                       inputType: TextInputType.visiblePassword,
                                       validate: (value) {
                                         if (value!.isEmpty) {
                                           return 'Password must not be null';
+                                        }
+                                        if (value.length <= 7) {
+                                          return 'Password should be at least 8 charachters';
                                         }
                                       },
                                       label: 'Password',
@@ -177,6 +206,14 @@ class RegisterScreen extends StatelessWidget {
                                       height: 16,
                                     ),
                                     defaultFormField(
+                                      style: LayoutCubit.get(context).isDark
+                                          ? Theme.of(context)
+                                              .textTheme
+                                              .subtitle2!
+                                              .copyWith(color: fifthColor)
+                                          : Theme.of(context)
+                                              .textTheme
+                                              .subtitle2,
                                       context: context,
                                       controller:
                                           password_confirmationController,
@@ -184,6 +221,9 @@ class RegisterScreen extends StatelessWidget {
                                       validate: (value) {
                                         if (value!.isEmpty) {
                                           return 'Password must not be null';
+                                        }
+                                        if (value.length <= 7) {
+                                          return 'Password should be at least 8 charachters';
                                         }
                                       },
                                       label: 'Confirm Password',

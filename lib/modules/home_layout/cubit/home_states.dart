@@ -34,8 +34,30 @@ class GetBookDetailsErrorState extends HomeStates {}
 
 
 ////////////////////////
+///
+class AddToWantToReadLoadingState extends HomeStates {}
+
+class AddToWantToReadSuccessState extends HomeStates {}
+
+class AddToWantToReadErrorState extends HomeStates {}
 
 
 
+class GetUserScoreLoadingState extends HomeStates {}
+
+class GetUserScoreSuccessState extends HomeStates {}
+
+class GetUserScoreErrorState extends HomeStates {
+
+}
+
+
+class DeleteBookLoadingState extends HomeStates {}
+
+class DeleteBookSuccessState extends HomeStates {}
+
+class DeleteBookErrorState extends HomeStates {
+
+}
 
 

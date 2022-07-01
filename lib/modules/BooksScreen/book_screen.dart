@@ -27,35 +27,38 @@ class BooksScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(
-              automaticallyImplyLeading: false,
-              backgroundColor: fourthColor,
-              elevation: 0,
-              title: Text(title, style: const TextStyle(overflow: TextOverflow.clip),),
-            ),
+                automaticallyImplyLeading: false,
+                elevation: 0,
+                title:
+                    Text(title, style: Theme.of(context).textTheme.subtitle1)),
             body: ConditionalBuilder(
-                condition: state is HomeGetDataSuccessState,
-                builder: (context) => Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: ListView.separated(
-                          itemBuilder: (ctxx, index) => CategoryBookItem(
-                              HomeCubit.get(context)
-                                  .homeModel!
-                                  .data![index + listNumber],
-                              context,
-                              screenNav
-                              //ScientificBookDetailsScreen.routePass
-                              ),
-                          separatorBuilder: (context, index) => Padding(
-                                padding: const EdgeInsetsDirectional.only(
-                                  start: 20.0,
+                condition: state is! HomeGetDataLoadingState,
+                builder: (context) => Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).backgroundColor),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: ListView.separated(
+                            itemBuilder: (ctxx, index) => CategoryBookItem(
+                                HomeCubit.get(context)
+                                    .homeModel!
+                                    .data![index + listNumber],
+                                context,
+                                screenNav
+                                //ScientificBookDetailsScreen.routePass
                                 ),
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 1.0,
-                                  color: Colors.grey[300],
+                            separatorBuilder: (context, index) => Padding(
+                                  padding: const EdgeInsetsDirectional.only(
+                                    start: 20.0,
+                                  ),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 1.0,
+                                    color: Colors.grey[300],
+                                  ),
                                 ),
-                              ),
-                          itemCount: itemsNumber),
+                            itemCount: itemsNumber),
+                      ),
                     ),
                 fallback: (context) => const Center(
                       child: Image(

@@ -1,6 +1,10 @@
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/models/get_score_model.dart';
+import 'package:graduation_project/modules/home_layout/cubit/home_cubit.dart';
+import 'package:graduation_project/modules/home_layout/cubit/home_states.dart';
+import 'package:graduation_project/modules/user_scores_screen.dart';
 
 import '../../network/local_network/Cache_Helper.dart';
 import '../../widgets/reusable_components.dart';
@@ -32,322 +36,320 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ProfileCubit, ProfileStates>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        //
-        // var model = ProfileCubit.get(context).userProfile;
-        if (ProfileCubit.get(context).name == null &&
-            ProfileCubit.get(context).email == null) {
-        } else {
-          nameController.text = ProfileCubit.get(context).name!;
-          emailController.text = ProfileCubit.get(context).email!;
-        }
+    return BlocProvider(
+      create: (context) =>
+          HomeCubit()..getUserScore(ProfileCubit.get(context).id),
+      child: BlocConsumer<ProfileCubit, ProfileStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          //
+          // var model = ProfileCubit.get(context).userProfile;
+          if (ProfileCubit.get(context).name == null &&
+              ProfileCubit.get(context).email == null) {
+          } else {
+            nameController.text = ProfileCubit.get(context).name!;
+            emailController.text = ProfileCubit.get(context).email!;
+          }
 
-        //
+          //
 
-        bool isDark = CacheHelper.getData(key: 'isDark');
+          bool isDark = CacheHelper.getData(key: 'isDark');
 
-        return Scaffold(
-          body: ListView(
-            children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  Container(
-                    height: 350.0,
-                    width: double.infinity,
-                  ),
-                  Container(
-                    height: 200.0,
-                    width: double.infinity,
-                    color: secondColor,
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back_ios),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      color: Colors.white,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: IconButton(
-                        onPressed: () {
-                          LayoutCubit.get(context).changeAppMode();
-                        },
-                        icon: const Icon(Icons.dark_mode)),
-                  ),
-                  Positioned(
-                    top: 125.0,
-                    left: 15.0,
-                    right: 15.0,
-                    child: Material(
-                      elevation: 3.0,
-                      borderRadius: BorderRadius.circular(7.0),
-                      child: Container(
-                        height: 200.0,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(7.0),
-                            color: Colors.white),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 75.0,
-                    left: (MediaQuery.of(context).size.width / 2 - 50.0),
-                    child: Container(
-                      height: 100.0,
-                      width: 100.0,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50.0),
-                          image: const DecorationImage(
-                              image: AssetImage('assets/images/person.webp'),
-                              fit: BoxFit.cover)),
-                    ),
-                  ),
-                  Positioned(
-                    top: 190.0,
-                    left: (MediaQuery.of(context).size.width / 2) - 105.0,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+          return Scaffold(
+            body: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).backgroundColor,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Stack(
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            // FlatButton(
-                            //   shape: RoundedRectangleBorder(
-                            //     borderRadius: BorderRadius.circular(7.0),
-                            //   ),
-                            //   color: secondColor,
-                            //   onPressed: () {},
-                            //   child: const Text(
-                            //     'Edit Profile',
-                            //     style: TextStyle(
-                            //         fontWeight: FontWeight.bold,
-                            //         fontSize: 15.0,
-                            //         color: Colors.white),
-                            //   ),
-                            // ),
-                            const SizedBox(width: 5.0),
-                            // FlatButton(
-                            //   shape: RoundedRectangleBorder(
-                            //     borderRadius: BorderRadius.circular(7.0),
-                            //   ),
-                            //   color: Colors.grey,
-                            //   onPressed: () {
-                            //     CacheHelper.removeData(
-                            //       key: 'token',
-                            //     ).then((value) {
-                            //       // if (value) {
-                            //       //   CacheHelper.removeData(key: 'myToken')
-                            //       //       .then((value) {});
-                            //         navigateToAndBurn(
-                            //           context,
-                            //           const LoginScreen(),
-                            //         );
-                            //       }
-                            //    // }
-                            //     );
-                            //   },
-                            //   child: const Text(
-                            //     'Logout',
-                            //     style: TextStyle(
-                            //         fontWeight: FontWeight.bold,
-                            //         fontSize: 15.0,
-                            //         color: Colors.white),
-                            //   ),
-                            // )
-                          ],
-                        )
+                        Container(
+                          height: 350.0,
+                          width: double.infinity,
+                        ),
+                        Container(
+                          height: 200.0,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).backgroundColor,
+                          ),
+                        ),
+                        Positioned(
+                          top: 125.0,
+                          left: 15.0,
+                          right: 15.0,
+                          child: Material(
+                            elevation: 3.0,
+                            borderRadius: BorderRadius.circular(7.0),
+                            child: Container(
+                              child: Center(
+                                child: Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Expanded(
+                                        child: Text(
+                                      nameController.text,
+                                      style:
+                                          Theme.of(context).textTheme.subtitle1,
+                                    )),
+                                    Expanded(
+                                        child: Text(
+                                      emailController.text,
+                                      style:
+                                          Theme.of(context).textTheme.subtitle1,
+                                    )),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    // TextButton(
+                                    //     onPressed: () {
+                                    //       navigateTo(context,
+                                    //           const UserScoresScreen());
+                                    //     },
+                                    //     child: Row(
+                                    //       children: const [
+                                    //         Expanded(
+                                    //             child:
+                                    //                 Icon(Icons.track_changes)),
+                                    //         Expanded(
+                                    //             child:
+                                    //                 Text('Track Your Score')),
+                                    //         Expanded(
+                                    //             child: Icon(Icons.arrow_right)),
+                                    //       ],
+                                    //     )
+                                    //     ),
+                                  ],
+                                ),
+                              ),
+                              height: 200.0,
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).backgroundColor,
+                                  borderRadius: BorderRadius.circular(7.0),
+                                  border:
+                                      Border.all(color: secondColor, width: 2)),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                  )
+                    myScoreLevel(),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: MaterialButton(
+                        height: 50,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(7.0),
+                        ),
+                        color: secondColor,
+                        onPressed: () {
+                          CacheHelper.removeData(
+                            key: 'token',
+                          ).then((value) {
+                            navigateToAndBurn(
+                              context,
+                              const LoginScreen(),
+                            );
+                          });
+                        },
+                        child: Center(
+                          child: Row(
+                            children: const [
+                              Text(
+                                'Logout',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15.0,
+                                    color: Colors.white),
+                              ),
+                              Icon(
+                                Icons.logout_sharp,
+                                color: Colors.white,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 100,
+                    ),
+                    //  myScoreLevel('2'),
+                    //  myScoreLevel('3'),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget myScoreLevel() {
+    return Column(
+      children: [
+        const SizedBox(height: 10.0),
+        Padding(
+          padding: const EdgeInsets.all(14.0),
+          child: Container(
+            decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
+            child: Column(
+              children: <Widget>[
+                BlocConsumer<HomeCubit, HomeStates>(
+                  listener: (context, state) {},
+                  builder: (context, state) {
+                    return ConditionalBuilder(
+                        condition: state is GetUserScoreSuccessState,
+                        builder: (context) =>
+                            //List.generate(1, (index) => (i , context)=> scor(model))
+
+                            ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return scor(
+                                  HomeCubit.get(context)
+                                      .getUserScoreModel!
+                                      .result![index],
+                                );
+
+                                //: Text('NOOOOOOOOO');
+                              },
+                              itemCount: 1,
+                              // itemCount: HomeCubit.get(context)
+                              //     .getUserScoreModel!
+                              //     .result!
+                              //     .length,
+                            )
+                        // Text(
+                        //     HomeCubit.get(context)
+                        //         .levelOne
+                        //         .toString())
+                        );
+                    //:Text('2'));
+                  },
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget scor(
+    model,
+  ) {
+    return BlocConsumer<HomeCubit, HomeStates>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (
+        context,
+        state,
+      ) {
+        return Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text('Level',
+                        style: Theme.of(context).textTheme.subtitle1),
+                  ),
+                  Expanded(
+                    child: Text('Score',
+                        style: Theme.of(context).textTheme.subtitle1),
+                  ),
+                  
                 ],
               ),
-              const SizedBox(height: 10.0),
-              Padding(
-                padding: const EdgeInsets.all(14.0),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    children: <Widget>[
-                      defaultFormField(
-                          controller: nameController,
-                          filledColor: const Color.fromARGB(253, 220, 252, 231),
-                          context: context,
-                          inputType: TextInputType.name,
-                          label: 'User Name',
-                          prefixIcon: Icons.person),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      defaultFormField(
-                          controller: emailController,
-                          filledColor: const Color.fromARGB(253, 220, 252, 231),
-                          context: context,
-                          inputType: TextInputType.emailAddress,
-                          label: 'User Email',
-                          prefixIcon: Icons.email)
-                    ],
+              Row(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => Text(
+                          HomeCubit.get(context)
+                              .getUserScoreModel!
+                              .result![index]
+                              .level
+                              .toString(),
+                          //  result[index].level.toString(),
+                          style: Theme.of(context).textTheme.subtitle1),
+                      itemCount: HomeCubit.get(context)
+                          .getUserScoreModel!
+                          .result!
+                          .length,
+                    ),
                   ),
-                ),
+                  Expanded(
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => Text(
+                          //  result[index].score.toString(),
+                          HomeCubit.get(context)
+                              .getUserScoreModel!
+                              .result![index]
+                              .score
+                              .toString(),
+                          style: Theme.of(context).textTheme.subtitle1),
+                      itemCount: HomeCubit.get(context)
+                          .getUserScoreModel!
+                          .result!
+                          .length,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
         );
-        // ConditionalBuilder(
-        //   condition: ProfileCubit.get(context).userProfile != null,
-        //   builder: (context) => Scaffold(
-        //     body: ListView(
-        //       children: <Widget>[
-        //         Stack(
-        //           children: <Widget>[
-        //             Container(
-        //               height: 350.0,
-        //               width: double.infinity,
-        //             ),
-        //             Container(
-        //               height: 200.0,
-        //               width: double.infinity,
-        //               color: secondColor,
-        //             ),
-        //             Align(
-        //               alignment: Alignment.topLeft,
-        //               child: IconButton(
-        //                 icon: const Icon(Icons.arrow_back_ios),
-        //                 onPressed: () {
-        //                   Navigator.pop(context);
-        //                 },
-        //                 color: Colors.white,
-        //               ),
-        //             ),
-        //             Align(
-        //               alignment: Alignment.topRight,
-        //               child: IconButton(
-        //                   onPressed: () {
-        //                     LayoutCubit.get(context).changeAppMode();
-        //                   },
-        //                   icon: const Icon(Icons.dark_mode)),
-        //             ),
-        //             Positioned(
-        //               top: 125.0,
-        //               left: 15.0,
-        //               right: 15.0,
-        //               child: Material(
-        //                 elevation: 3.0,
-        //                 borderRadius: BorderRadius.circular(7.0),
-        //                 child: Container(
-        //                   height: 200.0,
-        //                   decoration: BoxDecoration(
-        //                       borderRadius: BorderRadius.circular(7.0),
-        //                       color: Colors.white),
-        //                 ),
-        //               ),
-        //             ),
-        //             Positioned(
-        //               top: 75.0,
-        //               left: (MediaQuery.of(context).size.width / 2 - 50.0),
-        //               child: Container(
-        //                 height: 100.0,
-        //                 width: 100.0,
-        //                 decoration: BoxDecoration(
-        //                     borderRadius: BorderRadius.circular(50.0),
-        //                     image: const DecorationImage(
-        //                         image:
-        //                             AssetImage('assets/images/person.webp'),
-        //                         fit: BoxFit.cover)),
-        //               ),
-        //             ),
-        //             Positioned(
-        //               top: 190.0,
-        //               left: (MediaQuery.of(context).size.width / 2) - 105.0,
-        //               child: Column(
-        //                 mainAxisAlignment: MainAxisAlignment.center,
-        //                 children: <Widget>[
-        //                   Row(
-        //                     children: <Widget>[
-        //                       FlatButton(
-        //                         shape: RoundedRectangleBorder(
-        //                           borderRadius: BorderRadius.circular(7.0),
-        //                         ),
-        //                         color: secondColor,
-        //                         onPressed: () {},
-        //                         child: const Text(
-        //                           'Edit Profile',
-        //                           style: TextStyle(
-        //                               fontWeight: FontWeight.bold,
-        //                               fontSize: 15.0,
-        //                               color: Colors.white),
-        //                         ),
-        //                       ),
-        //                       const SizedBox(width: 5.0),
-        //                       FlatButton(
-        //                         shape: RoundedRectangleBorder(
-        //                           borderRadius: BorderRadius.circular(7.0),
-        //                         ),
-        //                         color: Colors.grey,
-        //                         onPressed: () {
-        //                           CacheHelper.removeData(
-        //                             key: 'token',
-        //                           ).then((value) {
-        //                             if (value) {
-        //                               CacheHelper.removeData(key: 'myToken').then((value) {});
-        //                               navigateToAndBurn(
-        //                                 context,
-        //                                 const LoginScreen(),);
-        //                             }
-        //                           });
-        //                         },
-        //                         child: const Text(
-        //                           'Logout',
-        //                           style: TextStyle(
-        //                               fontWeight: FontWeight.bold,
-        //                               fontSize: 15.0,
-        //                               color: Colors.white),
-        //                         ),
-        //                       )
-        //                     ],
-        //                   )
-        //                 ],
-        //               ),
-        //             )
-        //           ],
-        //         ),
-        //         const SizedBox(height: 10.0),
-        //         Padding(
-        //           padding: const EdgeInsets.all(14.0),
-        //           child: Form(
-        //             key: formKey,
-        //             child: Column(
-        //               children: <Widget>[
-        //                 defaultFormField(
-        //                     controller: nameController,
-        //                     filledColor: const Color.fromARGB(253, 220, 252, 231),
-        //                     context: context,
-        //                     inputType: TextInputType.name,
-        //                     label: 'User Name',
-        //                     prefixIcon: Icons.person),
-        //                 const SizedBox(
-        //                   height: 15,
-        //                 ),
-        //                 defaultFormField(
-        //                     controller: emailController,
-        //                     filledColor: const Color.fromARGB(253, 220, 252, 231),
-        //                     context: context,
-        //                     inputType: TextInputType.emailAddress,
-        //                     label: 'User Email',
-        //                     prefixIcon: Icons.email)
-        //               ],
-        //             ),
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // );
       },
     );
+    // DataTable(
+    //     dataRowHeight: 100,
+    //     columnSpacing: 20,
+    //     dividerThickness: 5,
+    //     columns: [
+    //       DataColumn(
+    //         label: Text('Level', style: Theme.of(context).textTheme.subtitle1),
+    //       ),
+    //       DataColumn(
+    //         label: Text('Score', style: Theme.of(context).textTheme.subtitle1),
+    //       ),
+    //       DataColumn(
+    //         label: Text('Date', style: Theme.of(context).textTheme.subtitle1),
+    //       ),
+    //     ],
+    //     rows: [
+    //       DataRow(cells: [
+    //         DataCell(
+    //           Text(
+    //           model.level.toString(),
+    //           style: Theme.of(context).textTheme.subtitle2,
+    //         )),
+    //         DataCell(Text(
+    //           model.score.toString(),
+    //           style: Theme.of(context).textTheme.subtitle2,
+    //         )),
+    //         DataCell(Text(
+    //           model.createdAt.toString(),
+    //           style: Theme.of(context).textTheme.subtitle2,
+    //         )),
+    //       ])
+    //     ]);
   }
 }
+//  testfehiuhi111@gmail.com
