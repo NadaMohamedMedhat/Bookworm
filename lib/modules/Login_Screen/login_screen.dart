@@ -204,6 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 .subtitle1!
                                                 .copyWith(
                                                     fontSize: 15,
+                                                    color: Colors.black,
                                                     fontWeight:
                                                         FontWeight.bold)),
                                       ),

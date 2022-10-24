@@ -6,7 +6,7 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://thebook.tech/api/',
+        baseUrl: 'https://thebooksworms.herokuapp.com/api/',
         receiveDataWhenStatusError: true,
         followRedirects: false,
         validateStatus: (status) {
