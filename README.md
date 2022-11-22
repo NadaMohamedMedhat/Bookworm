@@ -1,16 +1,23 @@
-# mvvm
+# **Bookworm**
+## Graduation Project 
 
-A new Flutter project.
+#####  Problem Definition
+- The goal of this book club is to assist readers in becoming better readers. 
+- The software contains pdf files, audiobooks, and scientific texts. 
+- The reader may be keeping a reading log.
+-  The reader's ability to read swiftly can be improved. 
 
-## Getting Started
+##### Its features:
 
-This project is a starting point for a Flutter application.
+1. Login and register
+2. Forget your password
+3. Read and listen to your favourite books
+4. Improve fast reading skill
+5. Search
+6. Follow your readings
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### Live Demo
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+https://user-images.githubusercontent.com/76527313/198885943-54b052ef-b355-4dac-9355-b86140871eac.mp4
+
