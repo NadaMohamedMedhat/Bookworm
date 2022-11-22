@@ -1,12 +1,9 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/models/home_model.dart';
 
 import 'package:graduation_project/modules/search_screen/cubit/search_states.dart';
 import 'package:graduation_project/network/Remote%20network/end_points.dart';
 
-
-import '../../../models/search_model.dart';
 import '../../../network/Remote network/dio_helper.dart';
 
 class SearchCubit extends Cubit<SearchStates> {
@@ -14,13 +11,12 @@ class SearchCubit extends Cubit<SearchStates> {
 
   static SearchCubit get(context) => BlocProvider.of(context);
 
-  
   // HomeModel? homeModel;
   // //List<SearchModel> items = [];
 
   // void getSearchData(dynamic text){
   //   emit(SearchLoadingState());
-  //   DioHelper.postData(path:SEARCH , 
+  //   DioHelper.postData(path:SEARCH ,
   //   data: {
   //     'name' : text
   //   }).then((value) {
@@ -52,34 +48,29 @@ class SearchCubit extends Cubit<SearchStates> {
   //   });
   // }
 
-
   HomeModel? searchModel;
-  List allItems =[] ;
+  List allItems = [];
   void getSearchData(
-    String keyword , 
- //dynamic year
-  ){
+    String keyword,
+    //dynamic year
+  ) {
     emit(SearchLoadingState());
-    DioHelper.getSearchData(path: 'https://thebook.tech/api/page/search',
-    keyword: keyword , 
-   // year: year
+    DioHelper.getSearchData(
+      path: SEARCH,
+      keyword: keyword,
+      // year: year
     ).then((value) {
       searchModel = HomeModel.fromJson(value.data);
       // allItems = [
       //      searchModel!.data,
       //    ];
       //allItems = searchModel!.data![0].contains(name.toString());
-         print(searchModel!.data![0].name.toString());
-         print(searchModel!.data.toString());
+      print(searchModel!.data![0].name.toString());
+      print(searchModel!.data.toString());
       emit(SearchSuccessState());
-    }).catchError((error){
+    }).catchError((error) {
       print(error.toString());
       emit(SearchErrorState());
     });
   }
-
-
-
-
-
 }
