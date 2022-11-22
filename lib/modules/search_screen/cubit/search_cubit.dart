@@ -11,45 +11,9 @@ class SearchCubit extends Cubit<SearchStates> {
 
   static SearchCubit get(context) => BlocProvider.of(context);
 
-  // HomeModel? homeModel;
-  // //List<SearchModel> items = [];
-
-  // void getSearchData(dynamic text){
-  //   emit(SearchLoadingState());
-  //   DioHelper.postData(path:SEARCH ,
-  //   data: {
-  //     'name' : text
-  //   }).then((value) {
-  //     homeModel = HomeModel.fromJson(value.data);
-  //     //items =searchModel as List<SearchModel>;
-  //     print(homeModel!.data.toString());
-  //     print(homeModel!.data![1].name);
-  //     print('Search '+homeModel!.status.toString());
-  //     emit(SearchSuccessState());
-  //   }).catchError((error){
-  //     print(error.toString());
-  //     emit(SearchErrorState());
-  //   });
-  // }
-
-  // SearchModel? searchModel;
-  // List allItems =[] ;
-  // void getSearchData(keyword){
-  //   emit(SearchLoadingState());
-  //   DioHelper.getData(path: 'https://thebook.tech/api/page/search?keyword=$keyword',).then((value) {
-  //     searchModel = SearchModel.fromJson(value.data);
-  //     allItems = [
-  //          searchModel!.data,
-  //        ];
-  //     emit(SearchSuccessState());
-  //   }).catchError((error){
-  //     print(error.toString());
-  //     emit(SearchErrorState());
-  //   });
-  // }
-
   HomeModel? searchModel;
   List allItems = [];
+
   void getSearchData(
     String keyword,
     //dynamic year
@@ -58,13 +22,8 @@ class SearchCubit extends Cubit<SearchStates> {
     DioHelper.getSearchData(
       path: SEARCH,
       keyword: keyword,
-      // year: year
     ).then((value) {
       searchModel = HomeModel.fromJson(value.data);
-      // allItems = [
-      //      searchModel!.data,
-      //    ];
-      //allItems = searchModel!.data![0].contains(name.toString());
       print(searchModel!.data![0].name.toString());
       print(searchModel!.data.toString());
       emit(SearchSuccessState());
